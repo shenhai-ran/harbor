@@ -9,6 +9,8 @@ services:
       - ${HARBOR_N8N_WORKSPACE}/storage:/home/node/.n8n
       - ${HARBOR_N8N_WORKSPACE}/backup:/backup
       - ${HARBOR_N8N_WORKSPACE}/shared:/data/shared
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      # - /usr/local/share/ca-certificates:/usr/local/share/ca-certificates:ro
     depends_on:
       n8n-db:
         condition: service_healthy
@@ -23,6 +25,9 @@ services:
       - DB_POSTGRESDB_DATABASE=${HARBOR_N8N_PG_DB}
       - N8N_ENCRYPTION_KEY=${HARBOR_N8N_ENCRYPTION_KEY}
       - N8N_USER_MANAGEMENT_JWT_SECRET=${HARBOR_N8N_JWT_SECRET}
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+      # - REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+      # - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
     networks:
       - harbor-network
 
