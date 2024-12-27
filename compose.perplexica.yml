@@ -12,8 +12,8 @@ services:
     networks:
       - harbor-network
     environment:
-      - BACKEND_API_URL=http://localhost:${HARBOR_PERPLEXICA_BACKEND_HOST_PORT}/api
-      - BACKEND_WS_URL=ws://localhost:${HARBOR_PERPLEXICA_BACKEND_HOST_PORT}
+      - BACKEND_API_URL=http://10.221.26.155:${HARBOR_PERPLEXICA_BACKEND_HOST_PORT}/api
+      - BACKEND_WS_URL=ws://10.221.26.155:${HARBOR_PERPLEXICA_BACKEND_HOST_PORT}
 
   perplexica-be:
     image: andypenno/perplexica-backend
@@ -26,6 +26,7 @@ services:
     volumes:
       - ./perplexica/data:/home/perplexica/data
       - ./perplexica/source.config.toml:/home/perplexica/config.toml
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     networks:
       - harbor-network
     environment:
@@ -34,3 +35,4 @@ services:
       - OPENAI_API_KEY=${HARBOR_OPENAI_KEY}
       - GROQ_API_KEY=${HARBOR_GROQ_KEY}
       - ANTHROPIC_API_KEY=${HARBOR_ANTHROPIC_KEY}
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
