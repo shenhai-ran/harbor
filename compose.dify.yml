@@ -6,12 +6,15 @@ services:
       - ./.env
       - ./dify/override.env
     environment:
-      MODE: api
+      - MODE=api
+      - REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+      - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
     depends_on:
       - dify-db
       - dify-redis
     volumes:
       - ${HARBOR_DIFY_VOLUMES}/app/storage:/app/api/storage
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     networks:
       - harbor-network
 
@@ -22,12 +25,15 @@ services:
       - ./.env
       - ./dify/override.env
     environment:
-      MODE: worker
+      - MODE=worker
+      - REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+      - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
     depends_on:
       - dify-db
       - dify-redis
     volumes:
       - ${HARBOR_DIFY_VOLUMES}/app/storage:/app/api/storage
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     networks:
       - harbor-network
 
@@ -170,9 +176,11 @@ services:
       - ./dify/override.env
     volumes:
       - ./dify/openai/app.js:/dify2openai/app.js
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     networks:
       - harbor-network
     environment:
       - DIFY_API_URL=http://harbor.dify:80
       - BOT_TYPE=${HARBOR_DIFY_BOT_TYPE}
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 
