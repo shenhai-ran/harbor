@@ -11,6 +11,9 @@ services:
       - ${HARBOR_LLAMACPP_CACHE}:/root/.cache/llama.cpp
       - ${HARBOR_VLLM_CACHE}:/root/.cache/vllm
       - ./ollama/modelfiles:/modelfiles
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+    environment:
+      - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
     tty: true
     ports:
       - ${HARBOR_OLLAMA_HOST_PORT}:11434
