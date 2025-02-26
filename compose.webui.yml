@@ -11,7 +11,7 @@ services:
       - ./shared/json_config_merger.py:/app/json_config_merger.py
       - ./open-webui/configs/config.override.json:/app/configs/config.z.override.json
       - /etc/localtime:/etc/localtime:ro
-      - /etc/ssl/certs/ca-certificates:/etc/ssl/certs/ca-certificates:ro
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     entrypoint: ["/app/start_webui.sh"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
