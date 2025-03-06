@@ -9,6 +9,7 @@ services:
       - ${HARBOR_N8N_WORKSPACE}/storage:/home/node/.n8n
       - ${HARBOR_N8N_WORKSPACE}/backup:/backup
       - ${HARBOR_N8N_WORKSPACE}/shared:/data/shared
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     depends_on:
       n8n-db:
         condition: service_healthy
@@ -23,6 +24,7 @@ services:
       - DB_POSTGRESDB_DATABASE=${HARBOR_N8N_PG_DB}
       - N8N_ENCRYPTION_KEY=${HARBOR_N8N_ENCRYPTION_KEY}
       - N8N_USER_MANAGEMENT_JWT_SECRET=${HARBOR_N8N_JWT_SECRET}
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
     networks:
       - harbor-network
 
@@ -43,7 +45,7 @@ services:
     volumes:
       - ${HARBOR_N8N_WORKSPACE}/db:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -h localhost -U ${HARBOR_N8N_PG_USER} -d ${HARBOR_N8N_PG_DB}']
+      test: [ 'CMD-SHELL', 'pg_isready -h localhost -U ${HARBOR_N8N_PG_USER} -d ${HARBOR_N8N_PG_DB}' ]
       interval: 5s
       timeout: 5s
       retries: 10

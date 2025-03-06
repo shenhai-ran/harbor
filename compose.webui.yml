@@ -11,9 +11,10 @@ services:
       - ./shared/json_config_merger.py:/app/json_config_merger.py
       - ./open-webui/configs/config.override.json:/app/configs/config.z.override.json
       - /etc/localtime:/etc/localtime:ro
-    entrypoint: ["/app/start_webui.sh"]
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+    entrypoint: [ "/app/start_webui.sh" ]
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 1s
       timeout: 10s
       retries: 10
@@ -26,3 +27,4 @@ services:
       - WEBUI_NAME=${HARBOR_WEBUI_NAME}
       - WEBUI_SECRET_KEY=${HARBOR_WEBUI_SECRET}
       - GLOBAL_LOG_LEVEL=${HARBOR_WEBUI_LOG_LEVEL}
+      - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt

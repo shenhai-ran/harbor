@@ -30,12 +30,13 @@ services:
       - CIVITAI_TOKEN=${HARBOR_CIVITAI_TOKEN}
       - COMFYUI_ARGS=${HARBOR_COMFYUI_ARGS}
       - PROVISIONING_SCRIPT=${HARBOR_COMFYUI_PROVISIONING}
+      - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
     ports:
       - ${HARBOR_COMFYUI_HOST_PORT}:${HARBOR_COMFYUI_HOST_PORT}
       - ${HARBOR_COMFYUI_PORTAL_HOST_PORT}:${HARBOR_COMFYUI_PORTAL_HOST_PORT}
       - ${HARBOR_COMFYUI_SYNCTHING_HOST_PORT}:${HARBOR_COMFYUI_SYNCTHING_HOST_PORT}
     volumes:
       - ${HARBOR_COMFYUI_WORKSPACE}:/workspace
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
     networks:
       - harbor-network
-
